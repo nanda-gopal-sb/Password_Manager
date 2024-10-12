@@ -5,55 +5,66 @@
 #include <stdlib.h>
 using namespace std;
 const char MasterKey[] = "<Your Master Key here>";
-struct Password{
+struct Password
+{
 	char textP[256] = {0};
 	int lenP = 0;
 };
-struct User{
+struct User
+{
 	char Name[256] = {0};
 	int lenN = 0;
 };
-struct Application{
+struct Application
+{
 	char Name[256] = {0};
 	int lenW = 0;
 };
-struct JanusUser{
+struct JanusUser
+{
 	Password password;
 	User username;
 };
 JanusUser user;
-struct Key{
+struct Key
+{
 	Application App;
 	Password password;
 	User username;
 };
-struct Node{
+struct Node
+{
 	Key *Data;
 	Node *next;
 };
-void encrypt(char *toEncrypt, const char *key, int len){
+void encrypt(char *toEncrypt, const char *key, int len)
+{
 	for (int i = 0; i < len; i++)
 	{
 		toEncrypt[i] = toEncrypt[i] ^ key[i % (strlen(key) / sizeof(char))];
 	}
 }
-void decrpt(char *toDecrpt, const char *key, int len){
+void decrpt(char *toDecrpt, const char *key, int len)
+{
 	for (int i = 0; i < len; i++)
 	{
 		toDecrpt[i] = toDecrpt[i] ^ key[i % strlen(key)];
 	}
 }
-void Encrpt_s(Key *toEncrpt){
+void Encrpt_s(Key *toEncrpt)
+{
 	encrypt(toEncrpt->App.Name, MasterKey, toEncrpt->App.lenW);
 	encrypt(toEncrpt->password.textP, MasterKey, toEncrpt->password.lenP);
 	encrypt(toEncrpt->username.Name, MasterKey, toEncrpt->username.lenN);
 }
-void Decrpt_s(Key *toDecrpt){
+void Decrpt_s(Key *toDecrpt)
+{
 	encrypt(toDecrpt->App.Name, MasterKey, toDecrpt->App.lenW);
 	encrypt(toDecrpt->password.textP, MasterKey, toDecrpt->password.lenP);
 	encrypt(toDecrpt->username.Name, MasterKey, toDecrpt->username.lenN);
 }
-void AddUser(){
+void AddUser()
+{
 	cout << "Enter the name of the User" << endl;
 	cin >> user.username.Name;
 	user.username.lenN = strlen(user.username.Name);
@@ -68,23 +79,28 @@ void AddUser(){
 	outf.write((const char *)(&_tmp), sizeof(JanusUser));
 	outf.close();
 }
-void ReadUser(){
+void ReadUser()
+{
 	ifstream file("userInfo.dat", ios::binary);
-	if (file.is_open()){
+	if (file.is_open())
+	{
 		file.read(reinterpret_cast<char *>(&user), sizeof(JanusUser));
 		decrpt(user.username.Name, MasterKey, user.username.lenN);
 		decrpt(user.password.textP, MasterKey, user.password.lenP);
 		file.close();
 		return;
 	}
-	else{
+	else
+	{
 		cout << "No user file found" << endl;
 		AddUser();
 	}
 }
-bool auth(JanusUser temp){
+bool auth(JanusUser temp)
+{
 	if (strcmp(temp.password.textP, user.password.textP) == 0 &&
-			strcmp(temp.username.Name, user.username.Name) == 0){
+		strcmp(temp.username.Name, user.username.Name) == 0)
+	{
 		return true;
 	}
 	return false;
@@ -146,7 +162,8 @@ void ShowOptions()
 	cout << "3 - Delete Password" << endl;
 	cout << "4 - Exit" << endl;
 }
-class LinkedListOps{
+class LinkedListOps
+{
 private:
 	Node *head = nullptr;
 
@@ -171,7 +188,8 @@ public:
 		else
 		{
 			Node *temp = head;
-			for (; temp->next != nullptr; temp = temp->next);
+			for (; temp->next != nullptr; temp = temp->next)
+				;
 			temp->next = newNode;
 		}
 	}
@@ -204,9 +222,7 @@ public:
 		for (; temp != nullptr; temp = temp->next)
 		{
 			if (
-				strcmp(temp->Data->App.Name, toDel->App.Name) == 0
-				&& strcmp(temp->Data->username.Name, toDel->username.Name) == 0
-			)
+				strcmp(temp->Data->App.Name, toDel->App.Name) == 0 && strcmp(temp->Data->username.Name, toDel->username.Name) == 0)
 			{
 				if (temp == head)
 				{
