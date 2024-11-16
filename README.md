@@ -21,7 +21,7 @@ This project is a C++ based Password Manager application. It allows users to sec
     ```
 3. Build the project:
     ```sh
-    make
+    g++ janusLinux.cpp
     ```
 
 ## Usage
