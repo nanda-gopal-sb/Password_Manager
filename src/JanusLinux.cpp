@@ -3,8 +3,9 @@
 #include <string.h>
 #include <iomanip>
 #include <stdlib.h>
-using namespace std;
+using std::cout, std::cin, std::endl, std::ifstream, std::ofstream;
 const char MasterKey[] = "<Your Master Key here>";
+// stroing the length of everything cuz I need to write into binary file
 struct Password
 {
 	char textP[256] = {0};
@@ -20,6 +21,7 @@ struct Application
 	char Name[256] = {0};
 	int lenW = 0;
 };
+
 struct JanusUser
 {
 	Password password;
@@ -32,6 +34,7 @@ struct Key
 	Password password;
 	User username;
 };
+// linked list node
 struct Node
 {
 	Key *Data;
@@ -71,7 +74,7 @@ void AddUser()
 	cout << "Enter the password" << endl;
 	cin >> user.password.textP;
 	user.password.lenP = strlen(user.password.textP);
-	ofstream outf("userInfo.dat", ios::binary);
+	ofstream outf("userInfo.dat", std::ios::binary);
 	// temporary user for storing it to file
 	JanusUser _tmp = user;
 	encrypt(_tmp.username.Name, MasterKey, _tmp.username.lenN);
@@ -81,7 +84,7 @@ void AddUser()
 }
 void ReadUser()
 {
-	ifstream file("userInfo.dat", ios::binary);
+	ifstream file("userInfo.dat", std::ios::binary);
 	if (file.is_open())
 	{
 		file.read(reinterpret_cast<char *>(&user), sizeof(JanusUser));
@@ -195,7 +198,7 @@ public:
 	}
 	void Populate()
 	{
-		ifstream file("Passwords.dat", ios::binary);
+		ifstream file("Passwords.dat", std::ios::binary);
 		if (file.is_open())
 		{
 			while (!file.eof())
@@ -267,16 +270,16 @@ public:
 		while (temp != nullptr)
 		{
 			Key *data = temp->Data;
-			cout << setw(12) << "Website - " << setw(30) << data->App.Name;
-			cout << setw(12) << "UserName - " << setw(30) << data->username.Name;
-			cout << setw(12) << "Password - " << setw(30) << data->password.textP;
+			cout << std::setw(12) << "Website - " << std::setw(30) << data->App.Name;
+			cout << std::setw(12) << "UserName - " << std::setw(30) << data->username.Name;
+			cout << std::setw(12) << "Password - " << std::setw(30) << data->password.textP;
 			temp = temp->next;
 			cout << endl;
 		}
 	}
 	void WriteIntoFile()
 	{
-		ofstream outf("Passwords.dat", ios::binary | ios::out);
+		ofstream outf("Passwords.dat", std::ios::binary | std::ios::out);
 		Node *temp = head;
 		while (temp != nullptr)
 		{
