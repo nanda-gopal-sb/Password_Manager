@@ -3,13 +3,6 @@
 ## Overview
 This project is a C++ based Password Manager application. It allows users to securely store and manage their passwords for various accounts.
 
-## Features
-- Secure password storage using encryption
-- Add, update, and delete passwords
-- Generate strong passwords
-- Search for stored passwords
-- User authentication
-
 ## Installation
 1. Clone the repository:
     ```sh
@@ -21,7 +14,7 @@ This project is a C++ based Password Manager application. It allows users to sec
     ```
 3. Build the project:
     ```sh
-    g++ janusLinux.cpp
+    g++ src/janus.cpp
     ```
 
 ## Usage
@@ -36,6 +29,3 @@ Contributions are welcome! Please fork the repository and create a pull request 
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-For any questions or suggestions, please contact [yourname@example.com](mailto:yourname@example.com).
